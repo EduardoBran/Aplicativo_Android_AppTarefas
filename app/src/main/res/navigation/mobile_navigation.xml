@@ -3,23 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_all_tasks">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.luizeduardobrandao.apptarefas.view.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_all_tasks"
+        android:name="com.luizeduardobrandao.apptarefas.view.AllTasksFragment"
+        android:label="@string/action_all_tasks"
+        tools:layout="@layout/fragment_all_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.luizeduardobrandao.apptarefas.view.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_next_tasks"
+        android:name="com.luizeduardobrandao.apptarefas.view.AllTasksFragment"
+        android:label="@string/action_next_seven_days"
+        tools:layout="@layout/fragment_all_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.luizeduardobrandao.apptarefas.view.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_expired"
+        android:name="com.luizeduardobrandao.apptarefas.view.AllTasksFragment"
+        android:label="@string/action_expired"
+        tools:layout="@layout/fragment_all_tasks" >
+        <argument
+            android:name="taskfilter"
+            app:argType="integer"
+            android:defaultValue="2" />
+    </fragment>
+
 </navigation>
