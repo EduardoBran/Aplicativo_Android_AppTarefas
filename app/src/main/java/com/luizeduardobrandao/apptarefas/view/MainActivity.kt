@@ -1,4 +1,4 @@
-package com.luizeduardobrandao.apptarefas
+package com.luizeduardobrandao.apptarefas.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
