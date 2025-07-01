@@ -22,4 +22,27 @@
     <style name="Theme.AppTarefas.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.AppTarefas.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DefaultButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingStart">64dp</item>
+        <item name="android:paddingEnd">64dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:backgroundTint">@color/pink</item>
+    </style>
+
+    <style name="WhiteEditText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="ViewDivider">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:background">@color/grey_500</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
 </resources>
