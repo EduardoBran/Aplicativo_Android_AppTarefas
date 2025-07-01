@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -51,4 +52,34 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // Activity KTX
+    implementation(libs.androidx.activity.ktx)
+
+    // DataStorePreferences
+    implementation(libs.androidx.datastore.preferences)
+
+//    // Retrofit
+//    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+//    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+//
+//    // Room
+//    implementation("androidx.room:room-runtime:2.7.2")
+//    implementation("androidx.room:room-ktx:2.7.2")
+//    ksp("androidx.room:room-compiler:2.7.2")
+//
+//    // Activity KTX
+//    implementation("androidx.activity:activity-ktx:1.10.0")
+//
+//    // DataStorePreferences
+//    implementation("androidx.datastore:datastore-preferences:1.1.7")
 }
