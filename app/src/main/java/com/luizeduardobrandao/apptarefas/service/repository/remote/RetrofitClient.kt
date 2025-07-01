@@ -4,6 +4,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// – Centraliza a configuração do Retrofit para chamadas HTTP à sua API remota.
+// – Constrói (e reusa) um único objeto Retrofit com base na URL base, no cliente OkHttp
+//   e no conversor Gson.
+// – O mét0do genérico getService(T::class.java) retorna qualquer interface de serviço Retrofit
+//   pronta para ser usada (ex.: TaskService, UserService etc.).
+
 class RetrofitClient private constructor() {
 
     companion object {

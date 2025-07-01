@@ -8,6 +8,13 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
+// – Encapsula o acesso ao DataStore do Android para leitura/gravação de pares chave-valor.
+// – Serve para salvar configurações simples ou pequenos flags (por exemplo, tema preferido,
+//   token de usuário, última tela visitada).
+// – Oferece métodos store(), remove() e get() que abstraem a API de Preferences.
+// – Para configurações e pequenos valores de chave-valor que não exigem relacionamentos
+//   nem consultas complexas.
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class PreferencesManager(private val context: Context) {
@@ -37,5 +44,4 @@ class PreferencesManager(private val context: Context) {
 
         return data[preferencesKey] ?: ""
     }
-
 }
