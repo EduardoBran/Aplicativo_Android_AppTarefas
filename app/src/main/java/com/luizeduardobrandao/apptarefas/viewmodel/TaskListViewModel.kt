@@ -1,4 +1,8 @@
 package com.luizeduardobrandao.apptarefas.viewmodel
 
-class TaskListViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+
+class TaskListViewModel(application: Application) : AndroidViewModel(application) {
+
 }
