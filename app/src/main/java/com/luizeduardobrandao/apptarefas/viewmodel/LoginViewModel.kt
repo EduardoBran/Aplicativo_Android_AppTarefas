@@ -1,4 +1,9 @@
 package com.luizeduardobrandao.apptarefas.viewmodel
 
-class LoginViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.luizeduardobrandao.apptarefas.service.repository.local.PreferencesManager
+
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
+    private val preferencesManager = PreferencesManager(application.applicationContext)
 }
