@@ -1,7 +1,9 @@
 package com.luizeduardobrandao.apptarefas.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -51,12 +53,21 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun observe() {
-
+        viewModel.createUser.observe(this) {
+            if (it.status()) {
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+            }
+            else {
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleSave() {
         val name = binding.editName.text.toString()
         val email = binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
+
+        viewModel.create(name, email, password)
     }
 }

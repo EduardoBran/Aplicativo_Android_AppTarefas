@@ -17,4 +17,10 @@ class PersonRepository {
 
         return remote.login(email, password)
     }
+
+    // Realiza o cadastro de um usuário utilizando e-mail, senha e nome.
+    suspend fun create(name: String, email: String, password: String): Response<PersonModel>{
+
+        return remote.create(name, email, password)
+    }
 }
