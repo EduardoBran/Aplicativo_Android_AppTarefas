@@ -55,13 +55,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // Observa as mudanças nos LiveData expostos pela ViewModel.
+    // "status()" e "message()" vem de ValidationModel via ViewModel.
     private fun observe() {
         viewModel.login.observe(this) {
-            if (it) {
+            if (it.status()) {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
             }
             else {
-                Toast.makeText(applicationContext, "Erro", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
             }
         }
     }
