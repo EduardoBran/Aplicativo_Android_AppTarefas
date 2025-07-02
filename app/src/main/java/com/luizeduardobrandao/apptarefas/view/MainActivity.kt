@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.nav_logout) {
                 // Se for logout, abre LoginActivity e finaliza a atual
+                viewModel.logout()
                 startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()
             } else {
