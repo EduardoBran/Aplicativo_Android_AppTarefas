@@ -20,6 +20,9 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
     private val _login = MutableLiveData<ValidationModel>()
     val login: LiveData<ValidationModel> = _login
 
+    private val _loggedUser = MutableLiveData<Boolean>()
+    val loggedUser: LiveData<Boolean> = _loggedUser
+
     // Faz login usando API
     fun login(email: String, password: String){
         viewModelScope.launch {
@@ -50,6 +53,18 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
                 _login.value = errorMessage(response)
             }
+        }
+    }
+
+    // Verifica se usuário está logado através da DataStore
+    fun verifyLoggedUser(){
+        viewModelScope.launch {
+            val token = preferencesManager.get(TaskConstants.SHARED.TOKEN_KEY)
+            val person = preferencesManager.get(TaskConstants.SHARED.PERSON_KEY)
+
+            // Se token e person key forem diferentes de vazio, usuário está logado
+            val logged = (token != "" && person != "")
+            _loggedUser.value = logged
         }
     }
 }

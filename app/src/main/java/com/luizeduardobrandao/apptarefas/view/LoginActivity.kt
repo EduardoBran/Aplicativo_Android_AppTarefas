@@ -39,6 +39,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.buttonLogin.setOnClickListener(this)
         binding.textRegister.setOnClickListener(this)
 
+        // Verifica se usuário já fez login anteriormente
+        viewModel.verifyLoggedUser()
+
         // Observadores
         observe()
     }
@@ -63,6 +66,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
             else {
                 Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.loggedUser.observe(this) {
+            if (it) {
+                startActivity(Intent(applicationContext, MainActivity::class.java))
             }
         }
     }

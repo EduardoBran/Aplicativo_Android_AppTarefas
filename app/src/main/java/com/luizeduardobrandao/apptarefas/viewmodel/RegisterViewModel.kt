@@ -43,7 +43,7 @@ class RegisterViewModel(application: Application) : BaseAndroidViewModel(applica
             }
             else {
                 // Esta API já retorna a mensagem de erro específica no formato Json
-                
+
                 // val msgJson = response.errorBody()?.string().toString()
                 // Converte a mensagem para uma String comum
                 // val msg = Gson().fromJson(msgJson, String::class.java)
