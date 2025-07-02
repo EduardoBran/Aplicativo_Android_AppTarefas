@@ -35,3 +35,6 @@ class RetrofitClient private constructor() {
         }
     }
 }
+
+// Documentação da API
+// https://www.devmasterteam.com/CursoAndroid/API
