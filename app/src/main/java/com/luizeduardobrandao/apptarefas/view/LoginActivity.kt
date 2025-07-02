@@ -21,6 +21,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // esconde menu superior
         supportActionBar?.hide()
 
         setContentView(binding.root)
@@ -43,8 +44,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.button_login) {
+            // clique do botão login
             handleLogin()
         } else if (v.id == R.id.text_register) {
+            // clique em "Cadastre-se" e navega para tela de "RegisterActivity"
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
@@ -52,6 +55,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
     }
 
+    // lógica do login
     private fun handleLogin() {
     }
 }

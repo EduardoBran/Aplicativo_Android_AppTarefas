@@ -2,29 +2,39 @@ package com.luizeduardobrandao.apptarefas.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.databinding.FragmentAllTasksBinding
 import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import com.luizeduardobrandao.apptarefas.view.adapter.TaskAdapter
 import com.luizeduardobrandao.apptarefas.viewmodel.TaskListViewModel
 
-/**
- * A fragment representing a list of Items.
- */
+// * Fragmento que exibe a lista de tarefas filtradas conforme argumento.
+// * Aqui configuramos RecyclerView e observamos o ViewModel.
 class AllTasksFragment : Fragment() {
 
+    // Injeta uma instância de TaskListViewModel associada ao ciclo de vida deste Fragment.
+    // O delegado `by viewModels()` garante que o ViewModel seja criado apenas uma vez
+    // e reutilizado em recriações de view (por exemplo, rotações de tela).
     private val viewModel: TaskListViewModel by viewModels()
+
+    // Referência nula para o binding do layout da Fragment.
+    // Será inicializada em onCreateView e liberada em onDestroyView para evitar vazamento de memória.
     private var _binding: FragmentAllTasksBinding? = null
+
+    // Propriedade de acesso não-nula ao binding, que lança se usada após onDestroyView.
+    // Facilita o acesso a todas as views sem precisar tratar nulidade a cada uso.
     private val binding get() = _binding!!
 
+    // Adapter que vai gerenciar a exibição da lista de tarefas no RecyclerView.
+    // Criado aqui para ser compartilhado entre os métodos do Fragment.
     private val adapter = TaskAdapter()
+
+    // Variável que receberá o critério de filtro de tarefas (ex: pendentes ou concluídas).
+    // Inicializada em onCreateView a partir dos argumentos passados ao Fragment.
     private var taskFilter = 0
 
     override fun onCreateView(
@@ -33,28 +43,35 @@ class AllTasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // Infla o layout e inicializa o binding
         _binding = FragmentAllTasksBinding.inflate(inflater, container, false)
 
+        // Define o layout manager (lista vertical) e o adapter no RecyclerView
+        // Aqui, binding.recyclerAllTasks já aponta para o RecyclerView do XML
         binding.recyclerAllTasks.layoutManager = LinearLayoutManager(context)
         binding.recyclerAllTasks.adapter = adapter
 
+        // Lê o filtro passado no Bundle via TaskConstants
         taskFilter = requireArguments().getInt(TaskConstants.BUNDLE.TASKFILTER, 0)
 
-        // Cria os observadores
+        // Configura observadores de LiveData ou StateFlow do ViewModel
         observe()
 
+        // Retorna a raiz do layout
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+        // Aqui poderia recarregar dados ou atualizar UI ao voltar à tela
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Limpa o binding para evitar vazamento de memória
         _binding = null
     }
-
+    // Função privada para ligar observadores do ViewModel à UI
     private fun observe(){
 
     }

@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // esconde menu superior
         supportActionBar?.hide()
 
         setContentView(binding.root)
@@ -39,6 +40,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         // Eventos
         binding.buttonSave.setOnClickListener(this)
 
+        // Observadores
         observe()
     }
 
