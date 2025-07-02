@@ -2,6 +2,7 @@ package com.luizeduardobrandao.apptarefas.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.viewModels
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         // Função para preparar o Navigation Drawer e integração com NavController.
         setupNavigation()
+
+        // Carrega nome do usuário
+        viewModel.loadUserName()
 
         // Função reservada para inscrever observadores do ViewModel.
         observe()
@@ -102,5 +106,13 @@ class MainActivity : AppCompatActivity() {
 
     // Função adicionar observadores no ViewModel.
     private fun observe() {
+        viewModel.name.observe(this) {
+            // O parâmetro 0 indica que você quer o primeiro (e normalmente único) cabeçalho
+            // da NavigationView.
+            val header = binding.navView.getHeaderView(0)
+            // Busca dentro de "nav_header_main.xml" de cabeçalho o TextView com id text_name e
+            // altera o texto para o nome do usuário.
+            header.findViewById<TextView>(R.id.text_name).text = it
+        }
     }
 }
