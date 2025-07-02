@@ -16,7 +16,7 @@ import retrofit2.Response
 open class BaseAndroidViewModel(private val app: Application): AndroidViewModel(app) {
 
     // Extrai a mensagem de erro da resposta da API e encapsula em um ValidationModel.
-    // "Response<T>" faz a resposta ser de qualquer tipo.
+    // "Response<T>" faz a resposta ser de qualquer tipo (genérica).
     fun <T> errorMessage(response: Response<T>): ValidationModel {
         return ValidationModel(
             Gson().fromJson(

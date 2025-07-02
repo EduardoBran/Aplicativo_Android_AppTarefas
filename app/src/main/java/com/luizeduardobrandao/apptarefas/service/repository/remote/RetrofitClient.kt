@@ -12,29 +12,52 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient private constructor() {
 
+    // Construtor privado para evitar instâncias diretas; usamos apenas o companion object
     companion object {
+        // Instância singleton de Retrofit, inicializada somente uma vez
         private lateinit var INSTANCE: Retrofit
 
+        // Variáveis para armazenar os headers de autenticação
+
+
+        // * Retorna a instância de Retrofit, criando-a na primeira chamada.
+        // * Configura um OkHttpClient com interceptor que injeta os headers
+        // * TOKEN_KEY e PERSON_KEY em todas as requisições.
         private fun getRetrofitInstance(): Retrofit {
+            // Cria um builder para configurar o cliente HTTP do OkHttp
             val httpClient = OkHttpClient.Builder()
 
+            // Interceptor: modifica cada requisição adicionando headers de autenticação
+
+
+            // Se ainda não inicializou INSTANCE, cria dentro de um bloco sincronizado
             if (!Companion::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("https://www.devmasterteam.com/CursoAndroidAPI/")
-                        .client(httpClient.build())
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("https://www.devmasterteam.com/CursoAndroidAPI/")  // URL base da API
+                        .client(httpClient.build())                                 // OkHttpClient com interceptor
+                        .addConverterFactory(GsonConverterFactory.create())         // serialização JSON com Gson
                         .build()
                 }
             }
             return INSTANCE
         }
 
+        // * Fornece qualquer serviço Retrofit definido por interface.
+        // * Exemplo: getService(PersonService::class.java) em "PersonRepository"
         fun <T> getService(serviceClass: Class<T>): T {
             return getRetrofitInstance().create(serviceClass)
         }
+
+        // * Atualiza os valores de token e personKey usados pelo interceptor.
+        // * Deve ser chamado após login/criação de usuário para que as próximas requisições
+        // * tragam os novos headers.
     }
 }
 
 // Documentação da API
 // https://www.devmasterteam.com/CursoAndroid/API
+
+// Em HTTP, headers (ou “cabeçalhos”) são pares de chave–valor que viajam junto à requisição
+// ou à resposta, fornecendo metadados sobre a transação. Eles não fazem parte do corpo (payload)
+// propriamente dito, mas descrevem aspectos importantes de como interpretar ou tratar a mensagem.
