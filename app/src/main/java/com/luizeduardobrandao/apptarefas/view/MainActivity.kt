@@ -20,7 +20,7 @@ import com.luizeduardobrandao.apptarefas.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    // Configuração que define os destinos “raiz” onde exibiremos o ícone de três pontinhos verticais
+    // Configuração que define os destinos “raiz” onde exibiremos o ícone de hamburguer
     // e associa esse comportamento a um DrawerLayout da "activity_main.xml".
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Habilita o botão “Up” (seta ou hambúrguer) para trabalhar com NavController.
-    // Quando em destino raiz, exibe hambúrguer; caso contrário, seta de voltar.
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         // Referência ao NavigationView (menu lateral) em "activity_main.xml"
         val navView: NavigationView = binding.navView
 
-        // Destinos que exibem ícone de três pontinhos verticais ao invés de seta de voltar
+        // Destinos que exibem ícone de hamburguer ao invés de seta de voltar
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
