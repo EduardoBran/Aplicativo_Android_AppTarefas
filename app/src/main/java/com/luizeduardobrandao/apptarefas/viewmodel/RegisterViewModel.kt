@@ -1,17 +1,16 @@
 package com.luizeduardobrandao.apptarefas.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import com.luizeduardobrandao.apptarefas.service.repository.PersonRepository
 import com.luizeduardobrandao.apptarefas.service.repository.local.PreferencesManager
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(application: Application) : AndroidViewModel(application) {
+// herda de BaseAndroidViewModel (que por sua vez esta herdando AndroidViewModel)
+class RegisterViewModel(application: Application) : BaseAndroidViewModel(application) {
 
     private val preferencesManager = PreferencesManager(application.applicationContext)
 
@@ -31,12 +30,13 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             }
             else {
                 // Esta API já retorna a mensagem de erro específica no formato Json
-                val msgJson = response.errorBody()?.string().toString()
-
+                // val msgJson = response.errorBody()?.string().toString()
                 // Converte a mensagem para uma String comum
-                val msg = Gson().fromJson(msgJson, String::class.java)
+                // val msg = Gson().fromJson(msgJson, String::class.java)
+                // _createUser.value = ValidationModel(msg)
 
-                _createUser.value = ValidationModel(msg)
+                // "errorMessage()" vem de BaseAndroidViewModel
+                _createUser.value = errorMessage(response)
             }
         }
     }
