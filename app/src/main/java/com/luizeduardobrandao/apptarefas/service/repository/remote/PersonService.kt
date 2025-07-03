@@ -10,7 +10,8 @@ import retrofit2.http.POST
 interface PersonService {
 
     // Segundo a documentação da api o Login espera 'email' e 'password'
-    // precisaremos mapeas esses atributos na função e passar a url segundo a documentação
+    // precisaremos mapear esses atributos na função e passar a url segundo a documentação
+    // para inserir os dados
     @POST("Authentication/Login")
     @FormUrlEncoded
     suspend fun login(
@@ -18,7 +19,7 @@ interface PersonService {
         @Field("password") password: String
     ): Response<PersonModel>
 
-    // Segundo a documentação da api o Create espera 'name', 'email' e 'password'
+    // Segundo a documentação da api o Create espera 'name', 'email' e 'password' para inserir
     @POST("Authentication/Create")
     @FormUrlEncoded
     suspend fun create(
