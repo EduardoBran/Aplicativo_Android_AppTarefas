@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import com.luizeduardobrandao.apptarefas.service.repository.PersonRepository
+import com.luizeduardobrandao.apptarefas.service.repository.PriorityRepository
 import com.luizeduardobrandao.apptarefas.service.repository.local.PreferencesManager
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,8 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
     private val preferencesManager = PreferencesManager(application.applicationContext)
 
     private val personRepository = PersonRepository()
+
+    private val priorityRepository = PriorityRepository(application.applicationContext)
 
     private val _login = MutableLiveData<ValidationModel>()
     val login: LiveData<ValidationModel> = _login
@@ -65,6 +68,15 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
             // Se token e person key forem diferentes de vazio, usuário está logado
             val logged = (token != "" && person != "")
             _loggedUser.value = logged
+
+            // Se usuário não estiver logado, aplicação vai atualizar/baixar os dados da API
+            if (!logged){
+                val response = priorityRepository.listAPI()
+                if (response.isSuccessful && response.body() != null){
+                    // busca "save()" em "PriorityRepository"
+                    priorityRepository.save(response.body()!!)
+                }
+            }
         }
     }
 }

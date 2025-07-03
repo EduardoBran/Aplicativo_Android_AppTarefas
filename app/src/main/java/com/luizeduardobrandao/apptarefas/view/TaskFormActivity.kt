@@ -77,7 +77,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleSave() {
-        val task = TaskModel()
+        // val task = TaskModel()
     }
 
     private fun handleDate() {
