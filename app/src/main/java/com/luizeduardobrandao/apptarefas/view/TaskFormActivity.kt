@@ -30,6 +30,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         )
     }
 
+    // usado para formatar a data
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     // variável de instância da TaskFormActivity que guarda a lista completa de objetos
@@ -59,6 +60,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onClick(v: View) {
+        // Quando o usuário clica no botão de data, chama handleDate()
         if (v.id == R.id.button_date) {
             handleDate()
         } else if (v.id == R.id.button_save) {
@@ -66,11 +68,16 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    // É chamado automaticamente pelo sistema após o usuário escolher a data no
+    // DatePickerDialog de handleSave()
     override fun onDateSet(v: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        // Monta um Calendar para converter os valores em um objeto Date
         val calendar = Calendar.getInstance()
         calendar.set(year, month, dayOfMonth)
 
+        // Formata a data usando o SimpleDateFormat definido na classe
         val dueDate = dateFormat.format(calendar.time)
+        // Atualiza o texto do botão para exibir a data escolhida
         binding.buttonDate.text = dueDate
     }
 
@@ -102,19 +109,39 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleSave() {
-        // val task = TaskModel()
 
-        // Retorna o índice (posição) do item que o usuário escolheu no Spinner.
+        // Busca a descrição da tarefa
+        val description = binding.editDescription.text.toString()
+
+        // Busca o índice (posição) do item que o usuário escolheu no Spinner.
         // Ex.: 0 para o primeiro, 1 para o segundo, e assim por diante.
         val priorityId = listPriority[binding.spinnerPriority.selectedItemPosition].id
 
+        // Busca o valor do CheckBox "Completa"
+        val completed = binding.checkComplete.isChecked
+
+        // Busca o texto do botão de data que foi atualizado em onDateSet
+        val dueDate = binding.buttonDate.text.toString()
+
+        // Passa os valores para o TaskModel
+        // val task = TaskModel(0, priorityId, description, dueDate, completed)
     }
 
+    // Abre o diálogo de seleção de data na tela.
     private fun handleDate() {
+        // Exibe a data atual como valores iniciais
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        DatePickerDialog(this, this, year, month, day).show()
+        // Criamos e mostramos o DatePickerDialog, passando 'this' como listener
+        // O diálogo automaticamente exibe a roda de seleção de dia, mês e ano
+        DatePickerDialog(
+            this,  // Contexto da Activity
+            this,  // OnDateSetListener: a própria Activity implementa a interface
+            year,         // ano inicial selecionado
+            month,        // mês inicial selecionado (0 = janeiro)
+            day           // dia inicial selecionado
+        ).show()
     }
 }
