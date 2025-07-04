@@ -3,6 +3,7 @@ package com.luizeduardobrandao.apptarefas.view
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -70,6 +71,24 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun observe() {
+        // Populando o spinner
+        viewModel.priorityList.observe(this){
+            // lista
+            val list = mutableListOf<String>()
+            for (item in it) {
+                list.add(item.description)
+            }
+
+            // adapter
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                list
+            )
+
+            // Populando
+            binding.spinnerPriority.adapter = adapter
+        }
     }
 
     private fun toast(str: String) {

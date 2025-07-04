@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName
 
 // * Representa a tabela de prioridades no banco de dados.
 // * Esta classe é anotada com "@Entity" e será gerenciada pelo Room dentro de "TaskDatabase".
+// * Cada instância corresponde a uma linha na tabela "Priority" do banco local, e também é
+// * usada para desserializar o JSON retornado pela API de prioridades ("PriorityService").
 @Entity(tableName = "Priority")
 class PriorityModel {
 
@@ -29,3 +31,15 @@ class PriorityModel {
 //        "Id": 1,
 //        "Description": "Baixa"
 //    },
+//    {
+//        "Id": 2,
+//        "Description": "Média"
+//    },
+//    {
+//        "Id": 3,
+//        "Description": "Alta"
+//    },
+//    {
+//        "Id": 4,
+//        "Description": "Crítica"
+//    }

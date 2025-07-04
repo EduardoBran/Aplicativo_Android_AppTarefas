@@ -5,6 +5,7 @@ import com.luizeduardobrandao.apptarefas.service.model.PriorityModel
 import com.luizeduardobrandao.apptarefas.service.repository.local.TaskDatabase
 import com.luizeduardobrandao.apptarefas.service.repository.remote.PriorityService
 import com.luizeduardobrandao.apptarefas.service.repository.remote.RetrofitClient
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 // * Repositório responsável por gerenciar as operações relacionadas a lista de prioridades
@@ -16,9 +17,17 @@ class PriorityRepository(context: Context) {
     // Instância de TaskDatabase
     private val database = TaskDatabase.getDatabase(context).priorityDao()
 
-    // Função para obter a lista de prioridades da API
+
+    // Função para obter a lista de prioridades vinda da API ("PriorityService")
+    // Chamada em "LoginViewModel"
     suspend fun listAPI(): Response<List<PriorityModel>> {
         return remote.list()
+    }
+
+    // Função para obter a lista de prioridades vinda banco local Room ("PriorityDAO").
+    // Chamada em "TaskFormViewModel"
+    fun list(): Flow<List<PriorityModel>> {
+        return database.list()
     }
 
     // Cria uma nova tarefa

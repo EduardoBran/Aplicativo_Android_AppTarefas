@@ -7,7 +7,7 @@ import retrofit2.http.GET
 // interface com endpoint de priority
 interface PriorityService {
 
-    // Obter lista de prioridades.
+    // Obter lista de prioridades vinda da API e mapeada em "PriorityModel"
     @GET("Priority")
     suspend fun list(): Response<List<PriorityModel>>
 }
