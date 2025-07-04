@@ -18,7 +18,10 @@ data class TaskModel (
     val dueDate: String,
 
     @SerializedName("Complete")
-    val complete: Boolean
+    val complete: Boolean,
+
+    // novo atributo para passar a descrição da prioridade (obrigatório passar um valor)
+    var priorityDescription: String = ""
 )
 
 // Items a serem mapeados:

@@ -34,7 +34,7 @@ class AllTasksFragment : Fragment() {
     // Criado aqui para ser compartilhado entre os métodos do Fragment.
     private val adapter = TaskAdapter()
 
-    // Variável que receberá o critério de filtro de tarefas (ex: pendentes ou concluídas).
+    // Variável que receberá o critério de filtro de tarefas (todas, próximas ou atrasadas).
     // Inicializada em onCreateView a partir dos argumentos passados ao Fragment.
     private var taskFilter = 0
 
@@ -86,8 +86,9 @@ class AllTasksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Chama a lista de tarefas
-        viewModel.list()
+        // Chama a lista de tarefas passando o filtro de tarefas e a viewModel lida com a lógica
+        // de qual lista ela tem que chamar.
+        viewModel.list(taskFilter)
     }
 
     override fun onDestroyView() {

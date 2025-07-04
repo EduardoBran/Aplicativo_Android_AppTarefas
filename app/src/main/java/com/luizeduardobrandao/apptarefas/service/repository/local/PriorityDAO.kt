@@ -25,7 +25,7 @@ interface PriorityDAO {
     // Busca apenas a descrição de uma prioridade pelo id.
     // Útil quando só precisamos da string description.
     @Query("SELECT description FROM Priority WHERE id = :id")
-    fun getDescription(id: Int): String
+    suspend fun getDescription(id: Int): String
 
     // Remove todas as entradas da tabela 'Priority'.
     @Query("DELETE FROM Priority")

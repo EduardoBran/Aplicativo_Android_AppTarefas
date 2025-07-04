@@ -7,6 +7,8 @@ import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.databinding.ItemTaskListBinding
 import com.luizeduardobrandao.apptarefas.service.listener.TaskListener
 import com.luizeduardobrandao.apptarefas.service.model.TaskModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 // * ViewHolder responsável por manter referências às views de cada item e “ligar” os
 // * dados de uma TaskModel a essas views.
@@ -15,19 +17,41 @@ class TaskViewHolder(
     val listener: TaskListener                      // interface para callbacks de cliques
 ): RecyclerView.ViewHolder(itemBinding.root) {
 
+    // Formatando a saída da data para um formato melhor
+    private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     // Vincula os dados de uma task às views e configura os eventos de clique.
     fun bindData(task: TaskModel){
 
         // Preenche os campos de texto com os dados da tarefa
         itemBinding.textDescription.text = task.description
-        itemBinding.textPriority.text = ""
-        itemBinding.textDueDate.text = task.dueDate
+
+        itemBinding.textPriority.text = task.priorityDescription
+
+        val date = simpleDateFormat.parse(task.dueDate)
+        itemBinding.textDueDate.text = simpleDateFormat.format(date!!)
+
+        // Preenche ícone de tarefa completada
+        if (task.complete) {
+            itemBinding.imageTask.setImageResource(R.drawable.ic_done)
+        }
+        else {
+            itemBinding.imageTask.setImageResource(R.drawable.ic_todo)
+        }
 
         // Clique simples na descrição — por exemplo, para editar ou visualizar detalhes
-        itemBinding.textDescription.setOnClickListener{ }
+        // passando o id
+        itemBinding.textDescription.setOnClickListener{ listener.onListClick(task.id) }
 
         // Clique no ícone de tarefa — pode servir para marcar concluída, etc.
-        itemBinding.imageTask.setOnClickListener{ }
+        itemBinding.imageTask.setOnClickListener{
+            if (task.complete) {
+                listener.onUndoClick(task.id)
+            }
+            else {
+                listener.onCompleteClick(task.id)
+            }
+        }
 
         // Clique longo na descrição — mostra caixa de diálogo de remoção
         itemBinding.textDescription.setOnLongClickListener {
@@ -35,7 +59,8 @@ class TaskViewHolder(
                 .setTitle(R.string.title_task_removal)
                 .setMessage(R.string.label_remove_task)
                 .setPositiveButton(R.string.button_yes) { _, _ ->
-
+                    // deleta a tarefa
+                    listener.onDeleteClick(task.id)
                 }
                 .setNeutralButton(R.string.button_cancel, null)
                 .show()

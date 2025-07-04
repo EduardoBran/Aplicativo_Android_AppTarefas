@@ -30,6 +30,11 @@ class PriorityRepository(context: Context) {
         return database.list()
     }
 
+    // Obtém a descrição da tarefa, sempre buscando no cache antes do banco de dados
+    suspend fun getDescription(id: Int): String {
+        return database.getDescription(id)
+    }
+
     // Chama o mét0do "@Query("DELETE FROM Priority") suspend fun clear()" do PriorityDAO.
     // - Isso apaga todos os registros da tabela Priority no seu banco local.
     // Chama o mét0do "@Insert suspend fun save(list: List<PriorityModel>)" do PriorityDAO.
