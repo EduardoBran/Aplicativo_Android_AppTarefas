@@ -19,9 +19,9 @@ class TaskViewHolder(
     fun bindData(task: TaskModel){
 
         // Preenche os campos de texto com os dados da tarefa
-        itemBinding.textDescription.text = ""
+        itemBinding.textDescription.text = task.description
         itemBinding.textPriority.text = ""
-        itemBinding.textDueDate.text = ""
+        itemBinding.textDueDate.text = task.dueDate
 
         // Clique simples na descrição — por exemplo, para editar ou visualizar detalhes
         itemBinding.textDescription.setOnClickListener{ }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.luizeduardobrandao.apptarefas.databinding.FragmentAllTasksBinding
 import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
+import com.luizeduardobrandao.apptarefas.service.listener.TaskListener
 import com.luizeduardobrandao.apptarefas.view.adapter.TaskAdapter
 import com.luizeduardobrandao.apptarefas.viewmodel.TaskListViewModel
 
@@ -54,6 +55,28 @@ class AllTasksFragment : Fragment() {
         // Lê o filtro passado no Bundle via TaskConstants
         taskFilter = requireArguments().getInt(TaskConstants.BUNDLE.TASKFILTER, 0)
 
+
+        // Implementando os membros de "TaskListener"
+        val taskListener = object: TaskListener{
+            override fun onListClick(id: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDeleteClick(id: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCompleteClick(id: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onUndoClick(id: Int) {
+                TODO("Not yet implemented")
+            }
+        }
+        adapter.attachListener(taskListener) // chama o listener
+
+
         // Configura observadores de LiveData ou StateFlow do ViewModel
         observe()
 
@@ -63,7 +86,8 @@ class AllTasksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Aqui poderia recarregar dados ou atualizar UI ao voltar à tela
+        // Chama a lista de tarefas
+        viewModel.list()
     }
 
     override fun onDestroyView() {
@@ -73,6 +97,8 @@ class AllTasksFragment : Fragment() {
     }
     // Função privada para ligar observadores do ViewModel à UI
     private fun observe(){
-
+        viewModel.tasks.observe(viewLifecycleOwner) {
+            adapter.updateTasks(it)
+        }
     }
 }

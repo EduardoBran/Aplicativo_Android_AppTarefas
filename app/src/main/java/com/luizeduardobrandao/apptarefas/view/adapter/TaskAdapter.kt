@@ -45,8 +45,8 @@ class TaskAdapter: RecyclerView.Adapter<TaskViewHolder>() {
         notifyDataSetChanged()
     }
 
-    // Recebe a implementação de TaskListener (geralmente da Fragment/Activity) para
-    // que ViewHolders possam disparar callbacks.
+    // Recebe a implementação de TaskListener (geralmente da Fragment AllTasksFragment)
+    // para que ViewHolders possam disparar callbacks.
     fun attachListener(taskListener: TaskListener){
         listener = taskListener
     }

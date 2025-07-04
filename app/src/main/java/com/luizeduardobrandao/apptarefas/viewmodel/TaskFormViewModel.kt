@@ -21,7 +21,7 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
     // Salvando a tarefa na API
     fun save(task: TaskModel) {
         viewModelScope.launch {
-            val response = taskRepository.save(task)
+            val response = taskRepository.create(task)
         }
     }
 
