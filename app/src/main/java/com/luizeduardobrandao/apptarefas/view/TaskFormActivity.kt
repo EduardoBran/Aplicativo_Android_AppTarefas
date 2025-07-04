@@ -31,7 +31,11 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    // variável de instância da TaskFormActivity que guarda a lista completa de objetos
+    // "PriorityModel" recuperada do banco.
     private var listPriority: List<PriorityModel> = mutableListOf()
+
     private var taskId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +77,9 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     private fun observe() {
         // Populando o spinner
         viewModel.priorityList.observe(this){
-            // lista
+            // É a lista de PriorityModel que vem do LiveData (priorityList) do TaskFormViewModel.
+            listPriority = it
+            // criando a lista
             val list = mutableListOf<String>()
             for (item in it) {
                 list.add(item.description)
@@ -97,6 +103,11 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun handleSave() {
         // val task = TaskModel()
+
+        // Retorna o índice (posição) do item que o usuário escolheu no Spinner.
+        // Ex.: 0 para o primeiro, 1 para o segundo, e assim por diante.
+        val priorityId = listPriority[binding.spinnerPriority.selectedItemPosition].id
+
     }
 
     private fun handleDate() {
