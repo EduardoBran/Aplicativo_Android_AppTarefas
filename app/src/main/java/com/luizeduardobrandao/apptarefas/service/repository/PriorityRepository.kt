@@ -30,7 +30,11 @@ class PriorityRepository(context: Context) {
         return database.list()
     }
 
-    // Cria uma nova tarefa
+    // Chama o mét0do "@Query("DELETE FROM Priority") suspend fun clear()" do PriorityDAO.
+    // - Isso apaga todos os registros da tabela Priority no seu banco local.
+    // Chama o mét0do "@Insert suspend fun save(list: List<PriorityModel>)" do PriorityDAO.
+    // - Insere toda a nova lista de PriorityModel — vinda da API — no banco, gravando cada
+    //   objeto como uma linha na tabela.
     suspend fun save(list: List<PriorityModel>) {
         // limpa os dados para sempre carregar lista atualizada
         database.clear()

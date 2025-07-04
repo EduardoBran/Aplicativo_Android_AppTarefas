@@ -8,6 +8,7 @@ import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import com.luizeduardobrandao.apptarefas.service.repository.PersonRepository
 import com.luizeduardobrandao.apptarefas.service.repository.local.PreferencesManager
+import com.luizeduardobrandao.apptarefas.service.repository.remote.RetrofitClient
 import kotlinx.coroutines.launch
 
 // herda de BaseAndroidViewModel (que por sua vez esta herdando AndroidViewModel)
@@ -38,6 +39,9 @@ class RegisterViewModel(application: Application) : BaseAndroidViewModel(applica
                 preferencesManager.store(TaskConstants.SHARED.TOKEN_KEY, result.token)
                 preferencesManager.store(TaskConstants.SHARED.PERSON_KEY, result.personKey)
                 preferencesManager.store(TaskConstants.SHARED.PERSON_NAME, result.name)
+
+                // Headers que garantem a autenticação do usuário
+                RetrofitClient.addHeaders(result.token, result.personKey)
 
                 _createUser.value = ValidationModel()
             }

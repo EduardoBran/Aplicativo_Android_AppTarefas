@@ -9,6 +9,7 @@ import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import com.luizeduardobrandao.apptarefas.service.repository.PersonRepository
 import com.luizeduardobrandao.apptarefas.service.repository.PriorityRepository
 import com.luizeduardobrandao.apptarefas.service.repository.local.PreferencesManager
+import com.luizeduardobrandao.apptarefas.service.repository.remote.RetrofitClient
 import kotlinx.coroutines.launch
 
 // herda de BaseAndroidViewModel (que por sua vez esta herdando AndroidViewModel)
@@ -45,6 +46,9 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
                 preferencesManager.store(TaskConstants.SHARED.PERSON_KEY, result.personKey)
                 preferencesManager.store(TaskConstants.SHARED.PERSON_NAME, result.name)
 
+                // Headers que garantem a autenticação do usuário (chamado em RetrofitClient)
+                RetrofitClient.addHeaders(result.token, result.personKey)
+
                 _login.value = ValidationModel()
             }
             else {
@@ -65,7 +69,10 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
             val token = preferencesManager.get(TaskConstants.SHARED.TOKEN_KEY)
             val person = preferencesManager.get(TaskConstants.SHARED.PERSON_KEY)
 
-            // Se token e person key forem diferentes de vazio, usuário está logado
+            // Headers que garantem a autenticação do usuário (chamado em RetrofitClient)
+            RetrofitClient.addHeaders(token, person)
+
+            // Se token e person forem diferentes de vazio, usuário está logado
             val logged = (token != "" && person != "")
             _loggedUser.value = logged
 

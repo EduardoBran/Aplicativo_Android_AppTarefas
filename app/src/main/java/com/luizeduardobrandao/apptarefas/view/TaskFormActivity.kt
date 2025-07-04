@@ -124,7 +124,8 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         val dueDate = binding.buttonDate.text.toString()
 
         // Passa os valores para o TaskModel
-        // val task = TaskModel(0, priorityId, description, dueDate, completed)
+        val task = TaskModel(0, priorityId, description, dueDate, completed)
+        viewModel.save(task)
     }
 
     // Abre o diálogo de seleção de data na tela.

@@ -1,5 +1,6 @@
 package com.luizeduardobrandao.apptarefas.service.repository.remote
 
+import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,16 +19,29 @@ class RetrofitClient private constructor() {
         private lateinit var INSTANCE: Retrofit
 
         // Variáveis para armazenar os headers de autenticação
+        private var token: String = ""
+        private var personKey: String = ""
 
 
         // * Retorna a instância de Retrofit, criando-a na primeira chamada.
         // * Configura um OkHttpClient com interceptor que injeta os headers
         // * TOKEN_KEY e PERSON_KEY em todas as requisições.
         private fun getRetrofitInstance(): Retrofit {
+
             // Cria um builder para configurar o cliente HTTP do OkHttp
+            // É o item que faz a conexão com a internet
             val httpClient = OkHttpClient.Builder()
 
+
             // Interceptor: modifica cada requisição adicionando headers de autenticação
+            httpClient.addInterceptor { chain ->
+                val request = chain.request()
+                    .newBuilder()
+                    .addHeader(TaskConstants.HEADER.TOKEN_KEY, token)
+                    .addHeader(TaskConstants.HEADER.PERSON_KEY, personKey)
+                    .build()
+                chain.proceed(request)
+            }
 
 
             // Se ainda não inicializou INSTANCE, cria dentro de um bloco sincronizado
@@ -50,8 +64,12 @@ class RetrofitClient private constructor() {
         }
 
         // * Atualiza os valores de token e personKey usados pelo interceptor.
-        // * Deve ser chamado após login/criação de usuário para que as próximas requisições
-        // * tragam os novos headers.
+        // * Deve ser chamado após login/criação ("LoginViewModel") de usuário para que as
+        // * próximas requisições tragam os novos headers.
+        fun addHeaders(tokenValue: String, personKeyValue: String){
+            token = tokenValue
+            personKey = personKeyValue
+        }
     }
 }
 
