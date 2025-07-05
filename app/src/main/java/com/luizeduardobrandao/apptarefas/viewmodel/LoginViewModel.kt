@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
+import com.luizeduardobrandao.apptarefas.service.exceptions.NoInternetException
 import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import com.luizeduardobrandao.apptarefas.service.repository.PersonRepository
 import com.luizeduardobrandao.apptarefas.service.repository.PriorityRepository
@@ -17,7 +19,7 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
     private val preferencesManager = PreferencesManager(application.applicationContext)
 
-    private val personRepository = PersonRepository()
+    private val personRepository = PersonRepository(application.applicationContext)
 
     private val priorityRepository = PriorityRepository(application.applicationContext)
 
@@ -30,35 +32,39 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
     // Faz login usando API
     fun login(email: String, password: String){
         viewModelScope.launch {
-            val response = personRepository.login(email, password)
+            try {
+                val response = personRepository.login(email, password)
 
-            // garantindo que a resposta foi bem sucedida
-            if (response.isSuccessful && response.body() != null) {
+                // garantindo que a resposta foi bem sucedida
+                if (response.isSuccessful && response.body() != null) {
 
-                // !! serve para dizer ao compilador “confie em mim, aqui esse valor não é nulo”,
-                // após eu mesmo ter garantido isso com a checagem response.body() != null
-                // A variável result agora é não nula e você pode chamar result.token,
-                // result.personKey, etc., sem precisar lidar com null.
-                val result = response.body()!!
+                    // !! serve para dizer ao compilador “confie em mim, aqui esse valor não é nulo”,
+                    // após eu mesmo ter garantido isso com a checagem response.body() != null
+                    // A variável result agora é não nula e você pode chamar result.token,
+                    // result.personKey, etc., sem precisar lidar com null.
+                    val result = response.body()!!
 
-                // Armazena os dados do usuário usando constante de TaskConstants
-                preferencesManager.store(TaskConstants.SHARED.TOKEN_KEY, result.token)
-                preferencesManager.store(TaskConstants.SHARED.PERSON_KEY, result.personKey)
-                preferencesManager.store(TaskConstants.SHARED.PERSON_NAME, result.name)
+                    // Armazena os dados do usuário usando constante de TaskConstants
+                    preferencesManager.store(TaskConstants.SHARED.TOKEN_KEY, result.token)
+                    preferencesManager.store(TaskConstants.SHARED.PERSON_KEY, result.personKey)
+                    preferencesManager.store(TaskConstants.SHARED.PERSON_NAME, result.name)
 
-                // Headers que garantem a autenticação do usuário (chamado em RetrofitClient)
-                RetrofitClient.addHeaders(result.token, result.personKey)
+                    // Headers que garantem a autenticação do usuário (chamado em RetrofitClient)
+                    RetrofitClient.addHeaders(result.token, result.personKey)
 
-                _login.value = ValidationModel()
-            }
-            else {
-                // Esta API já retorna a mensagem de erro específica no formato Json
+                    _login.value = ValidationModel()
+                }
+                else {
+                    // Esta API já retorna a mensagem de erro específica no formato Json
 
-                // val msgJson = response.errorBody()?.string().toString()
-                // Converte a mensagem para uma String comum
-                // val msg = Gson().fromJson(msgJson, String::class.java)
+                    // val msgJson = response.errorBody()?.string().toString()
+                    // Converte a mensagem para uma String comum
+                    // val msg = Gson().fromJson(msgJson, String::class.java)
 
-                _login.value = errorMessage(response)
+                    _login.value = errorMessage(response)
+                }
+            } catch (e: NoInternetException) {
+                _login.value = handleException(e)
             }
         }
     }
@@ -78,10 +84,23 @@ class LoginViewModel(application: Application) : BaseAndroidViewModel(applicatio
 
             // Se usuário não estiver logado, aplicação vai atualizar/baixar os dados da API
             if (!logged){
-                val response = priorityRepository.listAPI()
-                if (response.isSuccessful && response.body() != null){
-                    // busca "save()" em "PriorityRepository"
-                    priorityRepository.save(response.body()!!)
+                try {
+                    // tenta baixar as prioridades da API
+                    val response = priorityRepository.listAPI()
+                    if (response.isSuccessful && response.body() != null) {
+                        priorityRepository.save(response.body()!!)
+                    } else {
+                        // opcional: tratar API error e notificar a UI
+                        _login.value = errorMessage(response)
+                    }
+                } catch (e: NoInternetException) {
+                    // sem internet: notifica a UI com mensagem apropriada
+                    _login.value = handleException(e)
+                } catch (e: Exception) {
+                    // outros erros inesperados
+                    _login.value = ValidationModel(
+                        getApplication<Application>().getString(R.string.error_unexpected)
+                    )
                 }
             }
         }

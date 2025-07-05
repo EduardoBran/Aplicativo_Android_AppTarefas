@@ -1,4 +1,5 @@
 package com.luizeduardobrandao.apptarefas.service.exceptions
 
-class NoInternetException {
-}
+// * Essa classe é uma exceção personalizada que serve para sinalizar, de forma semântica,
+// * um erro de falta de conexão à Internet
+class NoInternetException(val errorMessage: String): Exception(errorMessage)

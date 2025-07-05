@@ -107,6 +107,21 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             // Populando
             binding.spinnerPriority.adapter = adapter
         }
+
+        viewModel.taskSave.observe(this) {
+            if (it.status()) {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.msg_task_created),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                finish()
+            }
+            else {
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun toast(str: String) {

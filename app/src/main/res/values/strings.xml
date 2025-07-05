@@ -17,7 +17,7 @@
     <string name="button_yes">Sim</string>
 
     <string name="error_unexpected">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
-    <string name="error_internet_connection">Conexão à internet necessária para uso da applicação.</string>
+    <string name="error_internet_connection">Conexão à internet necessária para uso da aplicação.</string>
 
     <string name="msg_task_updated">Tarefa atualizada com sucesso!</string>
     <string name="msg_task_created">Tarefa criada com sucesso!</string>

@@ -3,7 +3,8 @@ package com.luizeduardobrandao.apptarefas.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.google.gson.Gson
-import com.luizeduardobrandao.apptarefas.service.model.PersonModel
+import com.luizeduardobrandao.apptarefas.R
+import com.luizeduardobrandao.apptarefas.service.exceptions.NoInternetException
 import com.luizeduardobrandao.apptarefas.service.model.ValidationModel
 import retrofit2.Response
 
@@ -25,4 +26,15 @@ open class BaseAndroidViewModel(private val app: Application): AndroidViewModel(
         )
     }
 
+    // * Trata exceções lançadas durante chamadas de rede.
+    // * Caso a exceção seja do tipo NoInternetException, retorna uma mensagem específica.
+    // * Caso contrário, retorna uma mensagem genérica de erro inesperado.
+    fun handleException(e: Exception): ValidationModel {
+        return if (e is NoInternetException){
+            ValidationModel(e.errorMessage)
+        }
+        else {
+            ValidationModel(app.applicationContext.getString(R.string.error_unexpected))
+        }
+    }
 }

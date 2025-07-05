@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 // * Repositório responsável por gerenciar as operações relacionadas a lista de prioridades
-class PriorityRepository(context: Context) {
+class PriorityRepository(context: Context): BaseRepository(context) {
 
     // Instância do serviço remoto que define os endpoints da API relacionados à lista de prioridades
     private val remote = RetrofitClient.getService(PriorityService::class.java)
@@ -35,7 +35,7 @@ class PriorityRepository(context: Context) {
     // Função para obter a lista de prioridades vinda da API ("PriorityService")
     // Chamada em "LoginViewModel"
     suspend fun listAPI(): Response<List<PriorityModel>> {
-        return remote.list()
+        return safeApiCall { remote.list() }
     }
 
     // Função para obter a lista de prioridades vinda banco local Room ("PriorityDAO").
