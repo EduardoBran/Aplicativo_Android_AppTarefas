@@ -35,4 +35,7 @@
     <string name="label_priority">Prioridade</string>
     <string name="label_complete">Completa</string>
     <string name="label_due_date">Data limite</string>
+
+    <string name="toolbar_task_form">Cadastre sua tarefa</string>
+    <string name="cont_back_task_form">Voltar</string>
 </resources>

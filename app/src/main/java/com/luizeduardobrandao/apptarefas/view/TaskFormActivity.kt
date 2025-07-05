@@ -52,6 +52,11 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             insets
         }
 
+        // Configura o botão de back no header (menu)
+        binding.buttonBack.setOnClickListener {
+            finish()
+        }
+
         // Eventos
         binding.buttonSave.setOnClickListener(this)
         binding.buttonDate.setOnClickListener(this)
