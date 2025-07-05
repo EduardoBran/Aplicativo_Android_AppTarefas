@@ -34,6 +34,11 @@ class TaskRepository(context: Context): BaseRepository(context) {
         }
     }
 
+    // Remove uma tarefa pelo ID
+    suspend fun delete(id: Int): Response<Boolean>{
+        return safeApiCall { remote.delete(id) }
+    }
+
     // Marca uma tarefa como completa.
     suspend fun complete(id: Int): Response<Boolean>{
         return safeApiCall { remote.complete(id) }

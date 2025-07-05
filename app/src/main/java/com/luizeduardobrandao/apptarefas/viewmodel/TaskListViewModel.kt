@@ -23,6 +23,9 @@ class TaskListViewModel(application: Application) : BaseAndroidViewModel(applica
     private val _tasks = MutableLiveData<List<TaskModel>>()
     val tasks: LiveData<List<TaskModel>> = _tasks
 
+    private val _taskDelete = MutableLiveData<ValidationModel>()
+    val taskDelete: LiveData<ValidationModel> = _taskDelete
+
     private val _status = MutableLiveData<ValidationModel>()
     val status: LiveData<ValidationModel> = _status
 
@@ -58,6 +61,26 @@ class TaskListViewModel(application: Application) : BaseAndroidViewModel(applica
             }
         }
     }
+
+
+    // Deleta uma tarefa com base no Id (sucesso = lista recarregada, erro = exibicao do erro)
+    fun delete(taskId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = taskRepository.delete(taskId)
+
+                if (response.isSuccessful && response.body() == true) {
+                    list(taskFilter)
+                }
+                else {
+                    _taskDelete.value = errorMessage(response)
+                }
+            } catch (e: Exception){
+                _taskDelete.value = handleException(e)
+            }
+        }
+    }
+
 
     // Atualiza o status da tarefa (completa ou pendente).
     // Após a atualização, recarrega a lista.

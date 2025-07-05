@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.databinding.FragmentAllTasksBinding
 import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import com.luizeduardobrandao.apptarefas.service.listener.TaskListener
@@ -63,7 +65,8 @@ class AllTasksFragment : Fragment() {
             }
 
             override fun onDeleteClick(id: Int) {
-                TODO("Not yet implemented")
+                // deletando uma tarefa
+                viewModel.delete(id)
             }
 
             override fun onCompleteClick(id: Int) {
@@ -101,6 +104,23 @@ class AllTasksFragment : Fragment() {
     private fun observe(){
         viewModel.tasks.observe(viewLifecycleOwner) {
             adapter.updateTasks(it)
+        }
+
+        viewModel.taskDelete.observe(viewLifecycleOwner) {
+            if (it.status()) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.msg_task_removed),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else {
+                Toast.makeText(
+                    requireContext(),
+                    it.message(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }
