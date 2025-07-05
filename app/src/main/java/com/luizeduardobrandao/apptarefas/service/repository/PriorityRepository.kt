@@ -18,6 +18,20 @@ class PriorityRepository(context: Context) {
     private val database = TaskDatabase.getDatabase(context).priorityDao()
 
 
+    // Mecanismo de cache (evita acesso a banco de dados ou api que não são necessários)
+    companion object {
+        // Cache de descrições em memória. (Chave: priorityId, Valor: descrição correspondente)
+        private val descriptionCache = mutableMapOf<Int, String>()
+
+        // Retorna a descrição em cache para um dado ID, ou null se não estiver cacheada.
+        private fun getCachedDescription(id: Int): String? = descriptionCache[id]
+
+        // Armazena no cache a descrição para um dado ID.
+        private fun setCachedDescription(id: Int, description: String){
+            descriptionCache[id] = description
+        }
+    }
+
     // Função para obter a lista de prioridades vinda da API ("PriorityService")
     // Chamada em "LoginViewModel"
     suspend fun listAPI(): Response<List<PriorityModel>> {
@@ -30,9 +44,21 @@ class PriorityRepository(context: Context) {
         return database.list()
     }
 
-    // Obtém a descrição da tarefa, sempre buscando no cache antes do banco de dados
+    // Obtém a descrição da tarefa, (sempre buscando no cache antes do banco de dados)
     suspend fun getDescription(id: Int): String {
-        return database.getDescription(id)
+        // 1) Tenta ler do cache
+        getCachedDescription(id)?.let { cachedDesc ->
+            return cachedDesc
+        }
+
+        // 2) se não existir no cache, buscamos no DAO (Room)
+        val descriptionFromDb = database.getDescription(id)
+
+        // 3) armazenamos no cache para próximas chamadas
+        setCachedDescription(id, descriptionFromDb)
+
+        // 4) retornamos o valor obtido
+        return descriptionFromDb
     }
 
     // Chama o mét0do "@Query("DELETE FROM Priority") suspend fun clear()" do PriorityDAO.
