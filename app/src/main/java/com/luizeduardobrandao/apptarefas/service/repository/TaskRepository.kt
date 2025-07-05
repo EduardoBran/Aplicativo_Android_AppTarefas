@@ -30,4 +30,14 @@ class TaskRepository {
     suspend fun create(task: TaskModel){
         remote.create(task.priorityId, task.description, task.dueDate, task.complete)
     }
+
+    // Marca uma tarefa como completa.
+    suspend fun complete(id: Int): Response<Boolean>{
+        return remote.complete(id)
+    }
+
+    // Desfaz a conclusão de uma tarefa.
+    suspend fun undo(id: Int): Response<Boolean>{
+        return remote.undo(id)
+    }
 }

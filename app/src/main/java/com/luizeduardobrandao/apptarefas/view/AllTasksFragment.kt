@@ -67,11 +67,12 @@ class AllTasksFragment : Fragment() {
             }
 
             override fun onCompleteClick(id: Int) {
-                TODO("Not yet implemented")
+                // passando status de verdadeira para função na TaskListViewModel
+                viewModel.status(id, true)
             }
 
             override fun onUndoClick(id: Int) {
-                TODO("Not yet implemented")
+                viewModel.status(id, false)
             }
         }
         adapter.attachListener(taskListener) // chama o listener

@@ -27,6 +27,9 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
     // Carrega a lista de tarefas com base no filtro informado (observada em AllTasksFragment)
     // O filtro pode ser: todas, próximas ou atrasadas.
     fun list(filter: Int){
+        // atualiza o valor do filtro
+        taskFilter = filter
+
         viewModelScope.launch {
             val response = when (filter) {
                 TaskConstants.FILTER.ALL -> taskRepository.list()
@@ -43,6 +46,24 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
             }
 
                 _tasks.value = result
+            }
+        }
+    }
+
+    // Atualiza o status da tarefa (completa ou pendente).
+    // Após a atualização, recarrega a lista.
+    fun status(taskId: Int, complete: Boolean){
+        viewModelScope.launch {
+            val response = if (complete) {
+                taskRepository.complete(taskId)
+            }
+            else {
+                taskRepository.undo(taskId)
+            }
+
+            if (response.isSuccessful && response.body() != null){
+                // atualiza a lista
+                list(taskFilter)
             }
         }
     }
