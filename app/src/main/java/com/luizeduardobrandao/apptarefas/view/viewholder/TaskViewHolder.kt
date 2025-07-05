@@ -17,8 +17,9 @@ class TaskViewHolder(
     val listener: TaskListener                      // interface para callbacks de cliques
 ): RecyclerView.ViewHolder(itemBinding.root) {
 
-    // Formatando a saída da data para um formato melhor
-    private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    // Formatando a saída da data para um formato melhor (Brasil)
+    private val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     // Vincula os dados de uma task às views e configura os eventos de clique.
     fun bindData(task: TaskModel){
@@ -28,10 +29,14 @@ class TaskViewHolder(
 
         itemBinding.textPriority.text = task.priorityDescription
 
-        val date = simpleDateFormat.parse(task.dueDate)
-        itemBinding.textDueDate.text = simpleDateFormat.format(date!!)
+        // Tratamento para exibição da data corretamente (Brasil)
+        val date = inputDateFormat.parse(task.dueDate)
+        itemBinding.textDueDate.text = outputDateFormat.format(date!!)
 
-        // Preenche ícone de tarefa completada
+        // val date = inputDateFormat.parse(task.dueDate)
+        // itemBinding.textDueDate.text = inputDateFormat.format(date!!)
+
+        // Faz o tratamento para tarefas já completas
         if (task.complete) {
             itemBinding.imageTask.setImageResource(R.drawable.ic_done)
         }
