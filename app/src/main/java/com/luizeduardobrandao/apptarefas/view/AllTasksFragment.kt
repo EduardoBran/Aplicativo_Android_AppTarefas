@@ -1,5 +1,6 @@
 package com.luizeduardobrandao.apptarefas.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,7 +62,13 @@ class AllTasksFragment : Fragment() {
         // Implementando os membros de "TaskListener"
         val taskListener = object: TaskListener{
             override fun onListClick(id: Int) {
-                TODO("Not yet implemented")
+                // clicar em uma tarefa (carrega o TaskFormActivity passando  id)
+                val intent = Intent(context, TaskFormActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt(TaskConstants.BUNDLE.TASKID, id)
+                intent.putExtras(bundle)
+                startActivity(intent)
+
             }
 
             override fun onDeleteClick(id: Int) {

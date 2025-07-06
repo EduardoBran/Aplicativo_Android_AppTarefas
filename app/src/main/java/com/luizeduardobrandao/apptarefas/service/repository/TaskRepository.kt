@@ -34,6 +34,18 @@ class TaskRepository(context: Context): BaseRepository(context) {
         }
     }
 
+    // Atualiza uma tarefa existente.
+    suspend fun update(task: TaskModel): Response<Boolean> {
+        return safeApiCall {
+            remote.update(task.id, task.priorityId, task.description, task.dueDate, task.complete)
+        }
+    }
+
+    // Carrega uma tarefa específica pelo ID.
+    suspend fun load(id: Int): Response<TaskModel> {
+        return safeApiCall { remote.load(id) }
+    }
+
     // Remove uma tarefa pelo ID
     suspend fun delete(id: Int): Response<Boolean>{
         return safeApiCall { remote.delete(id) }

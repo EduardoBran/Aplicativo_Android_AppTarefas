@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.luizeduardobrandao.apptarefas.R
 import com.luizeduardobrandao.apptarefas.databinding.ActivityTaskFormBinding
+import com.luizeduardobrandao.apptarefas.service.constants.TaskConstants
 import com.luizeduardobrandao.apptarefas.service.model.PriorityModel
 import com.luizeduardobrandao.apptarefas.service.model.TaskModel
 import com.luizeduardobrandao.apptarefas.viewmodel.TaskFormViewModel
@@ -37,6 +38,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
     // "PriorityModel" recuperada do banco.
     private var listPriority: List<PriorityModel> = mutableListOf()
 
+    // variável para recuperar o Id passado por AllTasksFragment
     private var taskId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +63,10 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         binding.buttonSave.setOnClickListener(this)
         binding.buttonDate.setOnClickListener(this)
 
+        // Carrega dados da Activity (AllTasksFragment) se existirem
+        loadDataFromActivity()
+
+        // Observadores
         observe()
     }
 
@@ -110,16 +116,33 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
 
         viewModel.taskSave.observe(this) {
             if (it.status()) {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.msg_task_created),
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                if (taskId == 0){
+                    toast(getString(R.string.msg_task_created))
+                }
+                else {
+                    toast(getString(R.string.msg_task_updated))
+                }
                 finish()
             }
             else {
-                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+                toast(it.message())
+            }
+        }
+
+        viewModel.task.observe(this){
+            binding.editDescription.setText(it.description)
+            binding.checkComplete.isChecked = it.complete
+            binding.spinnerPriority.setSelection(getIndex(it.priorityId))
+
+            val date = SimpleDateFormat("yyyy-MM-dd").parse(it.dueDate)
+            binding.buttonDate.text = SimpleDateFormat("dd/MM/yyyy").format(date)
+            binding.buttonSave.text = getString(R.string.button_update_task) // atualiza texto botao
+        }
+
+        viewModel.taskLoad.observe(this){
+            if (!it.status()) {
+                toast(it.message())
+                finish()
             }
         }
     }
@@ -128,6 +151,33 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
     }
 
+    // Carregar id da tarefa (se existir)
+    // Caso existe, trata-se de edição
+    private fun loadDataFromActivity(){
+        val bundle = intent.extras
+        // verificando se já existem dados no bundle (quando cria não existe dados ainda)
+        if (bundle != null){
+            taskId = bundle.getInt(TaskConstants.BUNDLE.TASKID)
+            viewModel.load(taskId)
+        }
+    }
+
+    // Retorna o índice correspondente ao ID de prioridade fornecido.
+    // Utilizado para selecionar o item correto no Spinner.
+    private fun getIndex(priorityId: Int): Int {
+        var index = 0
+        for (l in listPriority){
+            if (l.id == priorityId){
+                break
+            }
+            index++
+        }
+        return index
+    }
+
+
+    // Coleta os dados preenchidos no formulário, cria um modelo da tarefa e chama a ViewModel
+    // para salvar os dados.
     private fun handleSave() {
 
         // Busca a descrição da tarefa
@@ -144,7 +194,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
         val dueDate = binding.buttonDate.text.toString()
 
         // Passa os valores para o TaskModel
-        val task = TaskModel(0, priorityId, description, dueDate, completed)
+        val task = TaskModel(taskId, priorityId, description, dueDate, completed)
         viewModel.save(task)
     }
 
