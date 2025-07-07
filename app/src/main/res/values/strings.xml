@@ -12,9 +12,11 @@
     <string name="button_add_task">Adicionar tarefa</string>
     <string name="button_cancel">Cancelar</string>
     <string name="button_register">Cadastrar</string>
+    <string name="cont_button_register">Botão Cadastrar</string>
     <string name="button_new_register">Cadastre-se</string>
+    <string name="cont_new_register">Botão Cadastre-se</string>
     <string name="button_login">Login</string>
-    <string name="cont_button_login">Login</string>
+    <string name="cont_button_login">Botão Login</string>
     <string name="button_yes">Sim</string>
 
     <string name="error_unexpected">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
