@@ -36,9 +36,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/toolbar_task_form"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/buttonBack"
@@ -70,6 +70,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#fafafa"
+                android:drawableStart="@drawable/ic_description"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/grey_200"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="@string/hint_description" />
 
             <!-- Divisor -->
@@ -85,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_medium"
                 android:text="@string/label_priority" />
 
             <!-- Spinner de prioridades -->
@@ -108,15 +113,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_medium"
                 android:text="@string/label_complete"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <!-- Divisor -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.9dp"
                 android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider" />
+                android:background="@color/grey_500" />
 
             <!-- Label de data -->
             <TextView
@@ -124,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_medium"
                 android:text="@string/label_due_date" />
 
             <!-- Botão para selecionar data -->
@@ -133,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:hint="@string/button_select_date"
                 android:textColor="@color/black" />
@@ -143,9 +151,11 @@
     <!-- Botão de salvar sempre visível fixo no rodapé -->
     <Button
         android:id="@+id/button_save"
+        style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:contentDescription="@string/cont_button_add_task"
         android:text="@string/button_add_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

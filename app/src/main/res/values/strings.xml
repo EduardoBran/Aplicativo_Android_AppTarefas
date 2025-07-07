@@ -10,6 +10,7 @@
     <string name="button_update_task">Atualizar tarefa</string>
     <string name="button_select_date">Clique para selecionar a data limite</string>
     <string name="button_add_task">Adicionar tarefa</string>
+    <string name="cont_button_add_task">Botão de adicionar tarefa</string>
     <string name="button_cancel">Cancelar</string>
     <string name="button_register">Cadastrar</string>
     <string name="cont_button_register">Botão Cadastrar</string>
@@ -41,4 +42,6 @@
 
     <string name="toolbar_task_form">Cadastre sua tarefa</string>
     <string name="cont_back_task_form">Voltar</string>
+    <string name="cont_image_logo_nav_header">Imagem do logo</string>
+    <string name="cont_floating_bottom">Adicionar tarefa</string>
 </resources>

@@ -20,7 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/hint_description"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/image_task"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/label_priority"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/image_task"
         app:layout_constraintTop_toBottomOf="@id/text_description" />
@@ -39,8 +43,10 @@
         android:id="@+id/text_due_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/label_due_date"
         android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +55,7 @@
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="#ececec"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

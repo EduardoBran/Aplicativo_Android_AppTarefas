@@ -65,4 +65,11 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">0dp</item>
     </style>
+
+    <style name="NavDrawerTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <!-- Fonte Roboto Medium (coloque .ttf em res/font/) -->
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <!-- cor será controlada por @color/nav_drawer_text_color -->
+    </style>
 </resources>
