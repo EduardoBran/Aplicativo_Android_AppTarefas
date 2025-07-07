@@ -6,4 +6,12 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- Activity Login -->
+    <dimen name="width_image_logo_login">256dp</dimen>
+    <dimen name="margin_top_image_logo_login">16dp</dimen>
+
+    <dimen name="margin_top_edit_texts_login">56dp</dimen>
+
+    <dimen name="margin_top_bottom_login">64dp</dimen>
 </resources>
