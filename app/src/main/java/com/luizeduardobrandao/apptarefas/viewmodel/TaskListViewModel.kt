@@ -32,10 +32,15 @@ class TaskListViewModel(application: Application) : BaseAndroidViewModel(applica
     private val _error = MutableLiveData<ValidationModel>()
     val error: LiveData<ValidationModel> = _error
 
+    // LiveData para loading
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
 
     // Carrega a lista de tarefas com base no filtro informado (observada em AllTasksFragment)
     // O filtro pode ser: todas, próximas ou atrasadas.
     fun list(filter: Int){
+        // exibe o loading
+        _loading.value = true
         // atualiza o valor do filtro
         taskFilter = filter
 
@@ -58,6 +63,8 @@ class TaskListViewModel(application: Application) : BaseAndroidViewModel(applica
                 }
             } catch (e: Exception) {
                 _error.value = handleException(e)
+            } finally {
+                _loading.value = false
             }
         }
     }

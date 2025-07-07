@@ -109,8 +109,17 @@ class AllTasksFragment : Fragment() {
     }
     // Função privada para ligar observadores do ViewModel à UI
     private fun observe(){
+
+        // 1) loading: só exibe o ProgressBar se estiver carregando _e_ não houver nada na lista
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            val shouldShow = isLoading && adapter.itemCount == 0
+            binding.progressLoading.visibility =
+                if (shouldShow) View.VISIBLE else View.GONE
+        }
+
         viewModel.tasks.observe(viewLifecycleOwner) {
             adapter.updateTasks(it)
+            binding.progressLoading.visibility = View.GONE
         }
 
         viewModel.taskDelete.observe(viewLifecycleOwner) {
